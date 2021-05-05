@@ -6,7 +6,19 @@ let ball = $('.ball'),
     fieldHeight = field.height();
     
 $(ball).on('click', function() {
-    let randomHeight = Math.floor(Math.random() * (fieldHeight + 1));
-    console.log(randomHeight);
-    $(this).animate({left: fieldWidth - ballWidth, top: randomHeight}, '400');
+  let ballOffset = ball.offset(),
+      randomHeight = getRandomNumber(fieldHeight);
+
+  console.log(randomHeight);
+  console.log(ballOffset);
+
+  $(this).animate({left: fieldWidth - ballWidth, top: randomHeight}, '400');
+
 });
+
+function getRandomNumber(attribute) {
+  let randomNumber = Math.floor(Math.random() * (attribute + 1 - ballHeight));
+  if(randomNumber >= 0) {
+    return randomNumber;
+  }
+}
