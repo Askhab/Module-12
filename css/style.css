@@ -17,10 +17,19 @@
 	height: 100px;
 }
 
-.ball2 {
+.goal {
 	position: absolute;
-	top: 150px;
+	display: block;
+	top: 33%;
+	width: 11%;
+	height: 34%;
+	background-color: rgba(255, 0, 0, 0.5);
+}
+
+.leftSide {
 	left: 0;
-	width: 100px;
-	height: 100px;
+}
+
+.rightSide {
+	left: calc(100% - 11%);
 }

@@ -3,17 +3,20 @@ let ball = $('.ball'),
     ballHeight = ball.height(),
     field = $('.field'),
     fieldWidth = field.width(),
-    fieldHeight = field.height();
+    fieldHeight = field.height(),
+    goal = $('.goal');
+
+console.info(goal.position());
     
 $(ball).on('click', function() {
-  let ballOffset = ball.offset(),
+  let ballPosition = ball.position(),
       randomHeight = getRandomNumber(fieldHeight);
 
-  console.log(randomHeight);
-  console.log(ballOffset);
-
-  $(this).animate({left: fieldWidth - ballWidth, top: randomHeight}, '400');
-
+  if(ballPosition.left === 0) {
+    $(this).animate({left: fieldWidth - ballWidth, top: randomHeight}, '400');
+  } else if(ballPosition.left === fieldWidth - ballWidth) {
+    $(this).animate({left: fieldWidth - fieldWidth, top: randomHeight}, '400');
+  }
 });
 
 function getRandomNumber(attribute) {
