@@ -1,44 +1,33 @@
 let ball = $('.ball'),
-    ballWidth = ball.width(),
-    ballHeight = ball.height(),
-    ballLineX = ball.offset().left,
-    ballLineY = ball.offset().top,
-    field = $('.field'),
-    fieldWidth = field.width(),
-    fieldHeight = field.height(),
-    goalLeft = $('.leftSide'),
-    goalRight = $('.rightSide');
+    field = $('.field');
+    
 
-// console.info(ballLineX);
-// console.info(ballLineY);
-console.info(goalLeft.position().top);
-console.info(goalLeft.position().left);
-console.info(goalRight.position().top);
-console.info(goalRight.position().left);
+function getRandomNumber(attribute) {
+  let randomNumber = Math.floor(Math.random() * (attribute + 1));
+  console.log(randomNumber);
+  return randomNumber;
+}
 
 $(ball).on('click', function() {
   let ballPosition = ball.position(),
-  goalLeftPosition = goalLeft.position(),
-  goalRightPosition = goalRight.position(),
-  randomHeight = getRandomNumber(fieldHeight);
+  maxLimitX = Math.floor(field.width()) - Math.ceil(ball.width()),
+  maxLimitY = Math.floor(field.height()) - Math.ceil(ball.height()),
+  minLimit = 0,
+  randomHeight = getRandomNumber(maxLimitY),
+  gateTopBorder = Math.ceil(field.height()) - Math.ceil(ball.height()),
+  gateBottomBorder = Math.floor(field.height() / 2 + (field.height() * 0.13) / 2);
 
-  if(ballPosition.left === 0) {
-    $(this).animate({left: fieldWidth - ballWidth, top: randomHeight}, '400');
-  } else if(ballPosition.left === fieldWidth - ballWidth) {
-    $(this).animate({left: fieldWidth - fieldWidth, top: randomHeight}, '400');
+  if(ballPosition.left === minLimit) {
+    $(this).animate({left: maxLimitX, top: randomHeight}, '400');
+    goal();
+  } else if(ballPosition.left === maxLimitX) {
+    $(this).animate({left: minLimit, top: randomHeight}, '400');
+    goal();
   }
 
-  if(
-    (ballPosition.left - ballWidth > goalLeftPosition.left && ballPosition.right - ballHeight > goalLeftPosition.top) ||
-    (ballPosition.left - ballWidth > goalRightPosition.left && ballPosition.top - ballHeight > goalRightPosition.top))
-  {
-    alert(`Гооол!`);
+  function goal() {
+    if(ballPosition.top <= gateTopBorder && ballPosition.top >= gateBottomBorder) {
+      alert("Гооол!");
+    }
   }
 });
-
-function getRandomNumber(attribute) {
-  let randomNumber = Math.floor(Math.random() * (attribute + 1 - ballHeight));
-  if(randomNumber >= 0) {
-    return randomNumber;
-  }
-}
