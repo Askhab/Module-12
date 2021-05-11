@@ -4,17 +4,18 @@ let ball = $('.ball'),
 
 function getRandomNumber(attribute) {
   let randomNumber = Math.floor(Math.random() * (attribute + 1));
-  console.log(randomNumber);
   return randomNumber;
 }
 
 $(ball).on('click', function() {
   let ballPosition = ball.position(),
+  ballTopBorder = ballPosition.top,
+  ballBottomBorder = ballPosition.top + ball.height(),
   maxLimitX = Math.floor(field.width()) - Math.ceil(ball.width()),
   maxLimitY = Math.floor(field.height()) - Math.ceil(ball.height()),
   minLimit = 0,
   randomHeight = getRandomNumber(maxLimitY),
-  gateTopBorder = Math.ceil(field.height()) - Math.ceil(ball.height()),
+  gateTopBorder = Math.floor(field.height() / 2 - (field.height() * 0.13) / 2),
   gateBottomBorder = Math.floor(field.height() / 2 + (field.height() * 0.13) / 2);
 
   if(ballPosition.left === minLimit) {
@@ -26,8 +27,22 @@ $(ball).on('click', function() {
   }
 
   function goal() {
-    if(ballPosition.top <= gateTopBorder && ballPosition.top >= gateBottomBorder) {
-      alert("Гооол!");
+    
+    console.log("Верхняя граница ворот - " + gateTopBorder);
+    console.log("Нижняя граница ворот - " + gateBottomBorder);
+
+    if(ballTopBorder > gateTopBorder && ballTopBorder < gateBottomBorder) {
+      setTimeout(() => {
+        console.warn("--------------");
+        console.log("Верхняя граница мяча - " + ballTopBorder);
+        console.log("Нижняя граница мяча - " + ballBottomBorder);
+        alert("Гооол!");
+      }, 1000) ;
     }
   }
+});
+
+$(field).on("click", function(event) {
+  // console.log("Line X - " + event.clientX);
+  console.log("Line Y - " + event.clientY);
 });
