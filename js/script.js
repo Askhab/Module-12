@@ -1,11 +1,5 @@
 let ball = $('.ball'),
     field = $('.field');
-    
-
-function getRandomNumber(attribute) {
-  let randomNumber = Math.floor(Math.random() * (attribute + 1));
-  return randomNumber;
-}
 
 $(ball).on('click', function() {
   let ballPosition = ball.position(),
@@ -14,28 +8,26 @@ $(ball).on('click', function() {
   maxLimitX = Math.floor(field.width()) - Math.ceil(ball.width()),
   maxLimitY = Math.floor(field.height()) - Math.ceil(ball.height()),
   minLimit = 0,
-  randomHeight = getRandomNumber(maxLimitY),
+  targetBallY = getRandomNumber(minLimit, maxLimitY),
   gateTopBorder = Math.floor(field.height() / 2 - (field.height() * 0.13) / 2),
-  gateBottomBorder = Math.floor(field.height() / 2 + (field.height() * 0.13) / 2);
+  gateBottomBorder = Math.ceil(field.height() / 2 + (field.height() * 0.13) / 2);
 
   if(ballPosition.left === minLimit) {
-    $(this).animate({left: maxLimitX, top: randomHeight}, '400');
+    $(this).animate({left: maxLimitX, top: targetBallY}, '400');
     goal();
   } else if(ballPosition.left === maxLimitX) {
-    $(this).animate({left: minLimit, top: randomHeight}, '400');
+    $(this).animate({left: minLimit, top: targetBallY}, '400');
     goal();
   }
 
-  function goal() {
-    
-    console.log("Верхняя граница ворот - " + gateTopBorder);
-    console.log("Нижняя граница ворот - " + gateBottomBorder);
+  function getRandomNumber(min, max) {
+    let randomNumber = Math.floor(Math.random() * (max - min + 1) + min);
+    return randomNumber;
+  }
 
-    if(ballTopBorder > gateTopBorder && ballTopBorder < gateBottomBorder) {
+  function goal() {
+    if((targetBallY + ball.height() / 2) > gateTopBorder && (targetBallY + ball.height() / 2) < gateBottomBorder) {
       setTimeout(() => {
-        console.warn("--------------");
-        console.log("Верхняя граница мяча - " + ballTopBorder);
-        console.log("Нижняя граница мяча - " + ballBottomBorder);
         alert("Гооол!");
       }, 1000) ;
     }
